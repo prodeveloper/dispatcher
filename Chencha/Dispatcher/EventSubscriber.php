@@ -8,6 +8,7 @@
 
 namespace Chencha\Dispatcher;
 
+use Chencha\Lib\DtoPath;
 use Illuminate\Events\Dispatcher;
 
 /**
@@ -24,7 +25,7 @@ abstract class EventSubscriber
     function __construct($path = null)
     {
         if (is_null($path)) {
-            $path = $this->guessPath();
+            $path = (new DtoPath())->guess($this);
         }
         $this->path = $path;
     }
@@ -74,37 +75,6 @@ abstract class EventSubscriber
      */
     abstract function duringListeners();
 
-    function guessPath()
-    {
-        $class = get_class($this);
-        if (strpos($class, "Command")) {
-            $path = preg_replace("#([\s\S]*?)\\\(Handlers\\\CommandHandler?s)#", "$1\\Commands", $class);
-        } elseif (strpos($class, "Request")) {
-            $path = preg_replace("#([\s\S]*?)\\\(Handlers\\\RequestHandler?s)#", "$1\\Requests", $class);
-        } elseif (strpos($class, "Event")) {
-            $path = preg_replace("#([\s\S]*?)\\\(Handlers\\\EventHandler?s)#", "$1\\Events", $class);
-        } else {
-            throw new \Exception("Path not parsed");
-        }
-        return str_replace("\\", ".", $path);
-    }
-
-    function pathToRequest($package)
-    {
-        $cls = get_class($this);
-
-        return "Ihub.{$package}.Requests";
-    }
-
-    function pathToEvents($package)
-    {
-        return "Ihub.{$package}.Events";
-    }
-
-    function pathToCommands($package)
-    {
-        return "Ihub.{$package}.Commands";
-    }
 
 
 } 
