@@ -1,6 +1,7 @@
 {
   "name": "chencha/dispatcher",
   "description": "Event based request and command dispatcher for laravel 4 ",
+  "version":"0.1.0",
   "keywords": [
     "commander",
     "events",
