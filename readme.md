@@ -8,6 +8,9 @@ A sample installation utilizing the module can be found here
 
 [Sample Application](https://github.com/prodeveloper/sample_dispatcher)
 
+
+This module requires a laravel installation.
+
 ##Installation
 
 You can use composer to install
