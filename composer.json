@@ -1,0 +1,27 @@
+{
+  "name": "chencha/dispatcher",
+  "description": "Event based request and command dispatcher for laravel 4 ",
+  "keywords": [
+    "commander",
+    "events",
+    "listeners",
+    "laravel"
+  ],
+  "version":"0.1",
+  "license": "MIT",
+  "require": {
+    "laravel/framework": "4.2.*",
+    "laracasts/commander": "~1.0"
+
+  },
+
+  "autoload": {
+    "psr-4": {
+      "Chencha\\": "src/Chencha"
+    }
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "minimum-stability": "stable"
+}
