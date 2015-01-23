@@ -21,8 +21,11 @@ abstract class EventSubscriber
     protected $listeners;
     protected $path;
 
-    function __construct($path)
+    function __construct($path = null)
     {
+        if (is_null($path)) {
+            $path = $this->guessPath();
+        }
         $this->path = $path;
     }
 
@@ -36,13 +39,13 @@ abstract class EventSubscriber
         }
 
         foreach ($this->duringListeners() as $listener) {
-            $events->listen($this->path . '.*', $listener,5);
+            $events->listen($this->path . '.*', $listener, 5);
         }
-        foreach($this->afterListeners() as $listener){
-            $events->listen($this->path . '.*', $listener,0);
+        foreach ($this->afterListeners() as $listener) {
+            $events->listen($this->path . '.*', $listener, 0);
         }
-        foreach($this->queuedListeners() as $listener){
-            $events->listen("queued.".$this->path . '.*', $listener,0);
+        foreach ($this->queuedListeners() as $listener) {
+            $events->listen("queued." . $this->path . '.*', $listener, 0);
         }
 
     }
@@ -60,7 +63,9 @@ abstract class EventSubscriber
     {
         return [];
     }
-    function queuedListeners(){
+
+    function queuedListeners()
+    {
         return [];
     }
 
@@ -68,5 +73,38 @@ abstract class EventSubscriber
      * @return array
      */
     abstract function duringListeners();
+
+    function guessPath()
+    {
+        $class = get_class($this);
+        if (strpos($class, "Command")) {
+            $path = preg_replace("#([\s\S]*?)\\\(Handlers\\\CommandHandler?s)#", "$1\\Commands", $class);
+        } elseif (strpos($class, "Request")) {
+            $path = preg_replace("#([\s\S]*?)\\\(Handlers\\\RequestHandler?s)#", "$1\\Requests", $class);
+        } elseif (strpos($class, "Event")) {
+            $path = preg_replace("#([\s\S]*?)\\\(Handlers\\\EventHandler?s)#", "$1\\Events", $class);
+        } else {
+            throw new \Exception("Path not parsed");
+        }
+        return str_replace("\\", ".", $path);
+    }
+
+    function pathToRequest($package)
+    {
+        $cls = get_class($this);
+
+        return "Ihub.{$package}.Requests";
+    }
+
+    function pathToEvents($package)
+    {
+        return "Ihub.{$package}.Events";
+    }
+
+    function pathToCommands($package)
+    {
+        return "Ihub.{$package}.Commands";
+    }
+
 
 } 
