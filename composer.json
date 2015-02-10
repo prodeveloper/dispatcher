@@ -8,7 +8,7 @@
     "listeners",
     "laravel"
   ],
-  "version":"0.1",
+  "version":"1",
   "license": "MIT",
   "require": {
     "laravel/framework": "4.2.*",
