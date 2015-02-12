@@ -1,6 +1,6 @@
 {
   "name": "chencha/dispatcher",
-  "description": "Event based request and command dispatcher for laravel 4 ",
+  "description": "Event based request and command dispatcher for laravel 5",
   "version":"0.1.0",
   "keywords": [
     "commander",
@@ -8,11 +8,11 @@
     "listeners",
     "laravel"
   ],
-  "version":"1",
+  "version":"2.0.1",
   "license": "MIT",
   "require": {
-    "laravel/framework": "4.2.*",
-    "laracasts/commander": "~1.0"
+    "laravel/framework": "5.0.*",
+    "laracasts/commander": "~1.4"
 
   },
 
